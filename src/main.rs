@@ -1,21 +1,8 @@
-struct ConsoleMessageWriter { }
+mod message_writer;
+mod salutation;
 
-impl ConsoleMessageWriter {
-    fn write(&self, message: String) {
-        println!("{}", message);
-    }
-}
-
-struct Salutation {
-    writer: ConsoleMessageWriter,
-}
-
-impl Salutation {
-    fn exclaim(&self) {
-        let message = String::from("Hello, DI!");
-        self.writer.write(message);
-    }
-}
+use crate::message_writer::{ ConsoleMessageWriter };
+use crate::salutation::{ Salutation };
 
 fn main() {
     let writer = ConsoleMessageWriter { };
