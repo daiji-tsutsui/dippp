@@ -1,11 +1,11 @@
-use crate::message_writer::{ ConsoleMessageWriter };
+use crate::message_writer::{ MessageWriter };
 
-pub struct Salutation {
-    writer: ConsoleMessageWriter,
+pub struct Salutation<T: MessageWriter> {
+    writer: T,
 }
 
-impl Salutation {
-    pub fn new(writer: ConsoleMessageWriter) -> Self {
+impl<T: MessageWriter> Salutation<T> {
+    pub fn new(writer: T) -> Self {
         Self { writer }
     }
 
