@@ -1,3 +1,7 @@
+// Exercise according to
+//   Dependency Injection Principles, Practices, and Patterns
+// by Steven van Deursen and Mark Seemann
+
 mod message_writer;
 mod salutation;
 
