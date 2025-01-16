@@ -4,12 +4,16 @@
 
 mod message_writer;
 mod salutation;
+mod identity;
 
-use crate::message_writer::{ ConsoleMessageWriter };
+use crate::message_writer::{ ConsoleMessageWriter, SecureMessageWriter };
 use crate::salutation::{ Salutation };
+use crate::identity::{ DummyIdentity };
 
 fn main() {
-    let writer = ConsoleMessageWriter::new();
+    let identity = DummyIdentity::new();
+    let i_writer = ConsoleMessageWriter::new();
+    let writer = SecureMessageWriter::new(i_writer, identity);
     let salute = Salutation::new(writer);
     salute.exclaim();
 }
