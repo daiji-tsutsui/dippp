@@ -1,14 +1,14 @@
 use super::{ Identity };
 
-pub struct DummyIdentity { }
+pub struct Dummy { }
 
-impl DummyIdentity {
+impl Dummy {
     pub fn new() -> Self {
         Self { }
     }
 }
 
-impl Identity for DummyIdentity {
+impl Identity for Dummy {
     fn is_authenticated(&self) -> bool {
         println!("[DEBUG] Dummy authorization!");
         true

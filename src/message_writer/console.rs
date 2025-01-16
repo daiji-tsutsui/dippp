@@ -1,14 +1,14 @@
 use super::{ MessageWriter };
 
-pub struct ConsoleMessageWriter { }
+pub struct Console { }
 
-impl ConsoleMessageWriter {
+impl Console {
     pub fn new() -> Self {
         Self { }
     }
 }
 
-impl MessageWriter for ConsoleMessageWriter {
+impl MessageWriter for Console {
     fn write(&self, message: String) {
         println!("{}", message);
     }
