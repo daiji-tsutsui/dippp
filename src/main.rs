@@ -6,9 +6,10 @@ mod message_writer;
 mod salutation;
 mod identity;
 
-use crate::message_writer::{ ConsoleMessageWriter, SecureMessageWriter };
+use crate::message_writer::console::{ ConsoleMessageWriter };
+use crate::message_writer::secure::{ SecureMessageWriter };
 use crate::salutation::{ Salutation };
-use crate::identity::{ DummyIdentity };
+use crate::identity::dummy::{ DummyIdentity };
 
 fn main() {
     let identity = DummyIdentity::new();
