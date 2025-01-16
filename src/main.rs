@@ -8,8 +8,10 @@ mod identity;
 
 fn main() {
     let identity = identity::dummy::Dummy::new();
-    let i_writer = message_writer::console::Console::new();
-    let writer = message_writer::secure::Secure::new(i_writer, identity);
+    let writer = message_writer::secure::Secure::new(
+        message_writer::console::Console::new(),
+        identity,
+    );
     let salute = salutation::Salutation::new(writer);
     salute.exclaim();
 }
