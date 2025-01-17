@@ -5,3 +5,5 @@ edition = "2021"
 
 [dependencies]
 mockall = "0.9.1"
+log     = "0.4.25"
+simple_logger = "5.0.0"

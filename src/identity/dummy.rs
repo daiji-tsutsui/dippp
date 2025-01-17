@@ -1,4 +1,5 @@
 use super::{ Identity };
+use log::{ debug };
 
 pub struct Dummy { }
 
@@ -10,7 +11,7 @@ impl Dummy {
 
 impl Identity for Dummy {
     fn is_authenticated(&self) -> bool {
-        println!("[DEBUG] Dummy authorization!");
+        debug!("Authorized!");
         true
     }
 }
