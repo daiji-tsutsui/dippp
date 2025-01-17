@@ -13,7 +13,7 @@ impl<T: MessageWriter, S: Identity> Secure<T, S> {
 }
 
 impl<T: MessageWriter, S: Identity> MessageWriter for Secure<T, S> {
-    fn write(&mut self, message: String) {
+    fn write(&self, message: String) {
         if self.identity.is_authenticated() {
             self.writer.write(message);
         }
@@ -41,7 +41,7 @@ mod tests {
             .times(1)
             .returning(|msg| assert_eq!(String::from("This is a test"), msg));
 
-        let mut writer = Secure::new(mock_writer, mock_identity);
+        let writer = Secure::new(mock_writer, mock_identity);
         writer.write(String::from("This is a test"));
     }
 }

@@ -6,5 +6,5 @@ use mockall::*;
 
 #[automock]
 pub trait MessageWriter {
-    fn write(&mut self, message: String);
+    fn write(&self, message: String);
 }

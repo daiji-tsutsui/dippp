@@ -9,7 +9,7 @@ impl<T: MessageWriter> Salutation<T> {
         Self { writer }
     }
 
-    pub fn exclaim(&mut self) {
+    pub fn exclaim(&self) {
         let message = String::from("Hello, DI!");
         self.writer.write(message);
     }
@@ -28,7 +28,7 @@ mod tests {
             .times(1)
             .returning(|msg| assert_eq!(String::from("Hello, DI!"), msg));
 
-        let mut salute = Salutation::new(mock_writer);
+        let salute = Salutation::new(mock_writer);
         salute.exclaim()
     }
 }

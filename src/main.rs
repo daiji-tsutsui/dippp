@@ -17,6 +17,6 @@ fn main() {
         message_writer::console::Console::new(),
         identity,
     );
-    let mut salute = salutation::Salutation::new(writer);
+    let salute = salutation::Salutation::new(writer);
     salute.exclaim();
 }
