@@ -18,16 +18,14 @@ impl<T: MessageWriter> Salutation<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use mockall::predicate;
     use crate::message_writer::{ MockMessageWriter };
 
     #[test]
     fn test_exclaim() {
         let mut mock_writer = MockMessageWriter::new();
         mock_writer.expect_write()
-                   .with(predicate::eq(String::from("Hello, DI!")))
                    .times(1)
-                   .return_const(());
+                   .returning(|msg| assert_eq!(String::from("Hello, DI!"), msg));
 
         let mut salute = Salutation::new(mock_writer);
         salute.exclaim()

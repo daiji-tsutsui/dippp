@@ -23,14 +23,11 @@ impl<T: MessageWriter, S: Identity> MessageWriter for Secure<T, S> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use mockall::predicate;
     use crate::identity::{ MockIdentity };
     use crate::message_writer::{ MockMessageWriter };
 
     #[test]
     fn test_write() {
-        let test_str = "This is a test";
-
         let mut mock_identity = MockIdentity::new();
         mock_identity.expect_is_authenticated()
                      .with()
@@ -39,11 +36,10 @@ mod tests {
 
         let mut mock_writer = MockMessageWriter::new();
         mock_writer.expect_write()
-                   .with(predicate::eq(String::from(test_str)))
                    .times(1)
-                   .return_const(());
+                   .returning(|msg| assert_eq!(String::from("This is a test"), msg));
 
         let mut writer = Secure::new(mock_writer, mock_identity);
-        writer.write(String::from(test_str));
+        writer.write(String::from("This is a test"));
     }
 }
