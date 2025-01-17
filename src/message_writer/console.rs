@@ -9,7 +9,7 @@ impl Console {
 }
 
 impl MessageWriter for Console {
-    fn write(&self, message: String) {
+    fn write(&mut self, message: String) {
         println!("{}", message);
     }
 }

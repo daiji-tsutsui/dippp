@@ -9,7 +9,7 @@ impl<T: MessageWriter> Salutation<T> {
         Self { writer }
     }
 
-    pub fn exclaim(&self) {
+    pub fn exclaim(&mut self) {
         let message = String::from("Hello, DI!");
         self.writer.write(message);
     }

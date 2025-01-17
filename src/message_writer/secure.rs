@@ -13,7 +13,7 @@ impl<T: MessageWriter, S: Identity> Secure<T, S> {
 }
 
 impl<T: MessageWriter, S: Identity> MessageWriter for Secure<T, S> {
-    fn write(&self, message: String) {
+    fn write(&mut self, message: String) {
         if self.identity.is_authenticated() {
             self.writer.write(message);
         }
