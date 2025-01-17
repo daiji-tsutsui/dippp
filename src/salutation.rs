@@ -18,36 +18,18 @@ impl<T: MessageWriter> Salutation<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use mockall::predicate;
+    use crate::message_writer::{ MockMessageWriter };
 
     #[test]
     fn test_exclaim() {
-        let writer = StubWriter::new();
-        let mut salute = Salutation::new(writer);
-        salute.exclaim();
-        assert_eq!(salute.get_writer().written.len(), 1);
-        assert_eq!(salute.get_writer().written[0], "Hello, DI!");
-    }
+        let mut mock_writer = MockMessageWriter::new();
+        mock_writer.expect_write()
+                   .with(predicate::eq(String::from("Hello, DI!")))
+                   .times(1)
+                   .return_const(());
 
-    #[derive(Clone)]
-    struct StubWriter {
-        pub written: Vec<String>,
-    }
-
-    impl MessageWriter for StubWriter {
-        fn write(&mut self, message: String) {
-            self.written.push(message);
-        }
-    }
-
-    impl StubWriter {
-        pub fn new() -> Self {
-            Self { written: Vec::<String>::new() }
-        }
-    }
-
-    impl<T: MessageWriter + Clone> Salutation<T> {
-        pub fn get_writer(&self) -> T {
-            self.writer.clone()
-        }
+        let mut salute = Salutation::new(mock_writer);
+        salute.exclaim()
     }
 }
