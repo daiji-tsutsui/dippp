@@ -1,11 +1,11 @@
 use super::{ Identity };
 use log::{ debug };
 
-pub struct Dummy { }
+pub struct Dummy {}
 
 impl Dummy {
     pub fn new() -> Self {
-        Self { }
+        Self {}
     }
 }
 

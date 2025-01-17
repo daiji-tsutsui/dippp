@@ -5,9 +5,9 @@
 extern crate log;
 extern crate simple_logger as logger;
 
+mod identity;
 mod message_writer;
 mod salutation;
-mod identity;
 
 fn main() {
     logger::init().unwrap();

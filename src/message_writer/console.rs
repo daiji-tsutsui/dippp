@@ -1,10 +1,10 @@
 use super::{ MessageWriter };
 
-pub struct Console { }
+pub struct Console {}
 
 impl Console {
     pub fn new() -> Self {
-        Self { }
+        Self {}
     }
 }
 

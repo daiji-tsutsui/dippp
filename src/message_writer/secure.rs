@@ -29,15 +29,17 @@ mod tests {
     #[test]
     fn test_write() {
         let mut mock_identity = MockIdentity::new();
-        mock_identity.expect_is_authenticated()
-                     .with()
-                     .times(1)
-                     .return_const(true);
+        mock_identity
+            .expect_is_authenticated()
+            .with()
+            .times(1)
+            .return_const(true);
 
         let mut mock_writer = MockMessageWriter::new();
-        mock_writer.expect_write()
-                   .times(1)
-                   .returning(|msg| assert_eq!(String::from("This is a test"), msg));
+        mock_writer
+            .expect_write()
+            .times(1)
+            .returning(|msg| assert_eq!(String::from("This is a test"), msg));
 
         let mut writer = Secure::new(mock_writer, mock_identity);
         writer.write(String::from("This is a test"));

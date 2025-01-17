@@ -1,7 +1,7 @@
 pub mod dummy;
 
-use mockall::*;
 use mockall::predicate::*;
+use mockall::*;
 
 #[automock]
 pub trait Identity {

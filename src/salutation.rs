@@ -23,9 +23,10 @@ mod tests {
     #[test]
     fn test_exclaim() {
         let mut mock_writer = MockMessageWriter::new();
-        mock_writer.expect_write()
-                   .times(1)
-                   .returning(|msg| assert_eq!(String::from("Hello, DI!"), msg));
+        mock_writer
+            .expect_write()
+            .times(1)
+            .returning(|msg| assert_eq!(String::from("Hello, DI!"), msg));
 
         let mut salute = Salutation::new(mock_writer);
         salute.exclaim()
