@@ -1,5 +1,5 @@
 [package]
-name = "dippp"
+name = "hello_di"
 version = "0.1.0"
 edition = "2021"
 
