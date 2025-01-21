@@ -5,6 +5,7 @@
 extern crate log;
 extern crate env_logger as logger;
 extern crate getset;
+extern crate uuid;
 
 mod product;
 
@@ -23,4 +24,5 @@ fn main() {
     product.set_name(String::from("test"));
     debug!("name: {}", product.name());
     debug!("desc: {}", product.desc());
+    debug!("id: {}", product.id());
 }
