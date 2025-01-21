@@ -1,14 +1,12 @@
-use super::Model;
-use getset::{ Getters, Setters };
+use super::{ Model };
 
-#[derive(Getters, Setters)]
-#[getset(get = "pub", set = "pub")]
+#[derive(Debug)]
 pub struct Product {
-    id: i32,
-    name: String,
-    desc: String,
-    unit_price: i32,
-    is_featured: bool,
+    pub id: i32,
+    pub name: String,
+    pub desc: String,
+    pub unit_price: i32,
+    pub is_featured: bool,
 }
 
 impl Product {

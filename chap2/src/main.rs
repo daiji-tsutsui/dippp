@@ -4,7 +4,6 @@
 
 extern crate log;
 extern crate env_logger as logger;
-extern crate getset;
 
 mod model;
 
@@ -18,9 +17,7 @@ fn main() {
     logger::init();
 
     let mut product = product::Product::new();
-
-    debug!("name: {}", product.name());
-    product.set_name(String::from("test"));
-    debug!("name: {}", product.name());
-    debug!("desc: {}", product.desc());
+    debug!("product: {:#?}", product);
+    product.name = String::from("changed");
+    debug!("modified product: {:#?}", product);
 }
