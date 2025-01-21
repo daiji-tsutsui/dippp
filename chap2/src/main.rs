@@ -4,13 +4,23 @@
 
 extern crate log;
 extern crate env_logger as logger;
+extern crate getset;
 
-use log::info;
+mod product;
+
+#[allow(unused_imports)]
+use log::{ info, debug };
 use dotenv::dotenv;
+use product::Product;
 
 fn main() {
     dotenv().ok();
     logger::init();
 
-    info!("Start");
+    let mut product = Product::new();
+
+    debug!("name: {}", product.name());
+    product.set_name(String::from("test"));
+    debug!("name: {}", product.name());
+    debug!("desc: {}", product.desc());
 }
