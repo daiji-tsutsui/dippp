@@ -1,3 +1,4 @@
+use super::Model;
 use getset::{ Getters, Setters };
 
 #[derive(Getters, Setters)]
@@ -21,3 +22,5 @@ impl Product {
         }
     }
 }
+
+impl Model for Product {}
