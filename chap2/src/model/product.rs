@@ -1,3 +1,4 @@
+use super::Model;
 use getset::{ Getters, Setters };
 use uuid::{ uuid, Uuid };
 
@@ -22,3 +23,5 @@ impl Product {
         }
     }
 }
+
+impl Model for Product {}
