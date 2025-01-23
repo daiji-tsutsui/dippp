@@ -1,7 +1,8 @@
 use super::{ Model, DbValue };
+use std::sync::{ Mutex, LazyLock };
 use getset::{ Getters, Setters };
 
-#[derive(Getters, Setters)]
+#[derive(Getters, Setters, Clone)]
 #[getset(get = "pub", set = "pub")]
 pub struct Product {
     id: i32,
@@ -14,15 +15,21 @@ pub struct Product {
 impl Product {
     pub fn new() -> Self {
         Self {
-            id: 1,
-            name: String::from("name"),
-            desc: String::from("desc"),
-            unit_price: 100,
-            is_featured: true,
+            id: Self::current_id(),
+            name: String::from(""),
+            desc: String::from(""),
+            unit_price: 0,
+            is_featured: false,
         }
     }
 
-    pub fn fetch(field: &str, value: DbValue) -> Self {
+    pub fn fetch_one(field: &str, value: DbValue) -> Self {
+        let table = PRODUCT_TABLE.lock().unwrap();
+        for record in table.iter() {
+            if value == record.getter(field) {
+                return record.clone();
+            }
+        }
         Self::new()
     }
 
@@ -36,6 +43,32 @@ impl Product {
             _ => panic!("Invalid field name!!"),
         }
     }
+
+    fn current_id() -> i32 {
+        let table = PRODUCT_TABLE.lock().unwrap();
+        table.len() as i32 + 1
+    }
 }
 
 impl Model for Product {}
+
+static PRODUCT_TABLE: LazyLock<Mutex<Vec<Product>>> = LazyLock::new(||
+    Mutex::new(
+        vec![
+            Product {
+                id: 1,
+                name: String::from("Black Thunder"),
+                desc: String::from("Chocolate Snack"),
+                unit_price: 40,
+                is_featured: false,
+            },
+            Product {
+                id: 2,
+                name: String::from("Orange"),
+                desc: String::from("Organic"),
+                unit_price: 100,
+                is_featured: true,
+            },
+        ]
+    )
+);
