@@ -5,7 +5,6 @@
 extern crate log;
 extern crate env_logger as logger;
 extern crate getset;
-extern crate uuid;
 
 mod model;
 
