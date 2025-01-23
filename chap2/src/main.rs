@@ -21,16 +21,13 @@ fn main() {
         "is_featured",
         model::DbValue::Bool(true),
     );
-    debug!("name: {}", product.name());
+    debug!("fetched: {:#?}", product);
     product.set_name(String::from("test"));
-    debug!("name: {}", product.name());
-    debug!("desc: {}", product.desc());
-    debug!("id: {}", product.id());
+    debug!("changed: {:#?}", product);
 
     let product2 = product::Product::fetch_one(
         "is_featured",
         model::DbValue::Bool(true),
     );
-    debug!("name: {}", product2.name());
-    debug!("id: {}", product.id());
+    debug!("fetched2: {:#?}", product2);
 }

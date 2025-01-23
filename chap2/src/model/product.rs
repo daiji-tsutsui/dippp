@@ -2,7 +2,7 @@ use super::{ Model, DbValue };
 use std::sync::{ Mutex, LazyLock };
 use getset::{ Getters, Setters };
 
-#[derive(Getters, Setters, Clone)]
+#[derive(Getters, Setters, Clone, Debug)]
 #[getset(get = "pub", set = "pub")]
 pub struct Product {
     id: i32,
