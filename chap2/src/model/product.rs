@@ -2,10 +2,11 @@ use std::error::Error;
 use std::sync::{LazyLock, Mutex};
 
 use serde_json;
+use log::debug;
 
 use super::Model;
 
-#[derive(Debug)]
+#[derive(Clone, Default, Debug)]
 pub struct Product {
     pub id: i32,
     pub name: String,
@@ -16,12 +17,19 @@ pub struct Product {
 
 impl Product {
     pub fn new() -> Self {
-        Self {
-            id: 1,
-            name: String::from("name"),
-            desc: String::from("desc"),
-            unit_price: 100,
-            is_featured: true,
+        Default::default()
+    }
+
+    pub fn fetch(field: &str, value: &str) -> Vec<Self> {
+        let table = &PRODUCT_TABLE.lock().unwrap();
+        table.query_select(field, value)
+    }
+
+    pub fn fetch_one(field: &str, value: &str) -> Option<Self> {
+        let fetched = Self::fetch(field, value);
+        match fetched.len() > 0 {
+            true => Some(fetched[0].clone()),
+            false => None,
         }
     }
 }
@@ -42,15 +50,16 @@ impl ProductTable {
     pub fn query_select(&self, field: &str, value: &str) -> Vec<Product> {
         let data: Vec<serde_json::Value> = self.get_data().unwrap();
         let filtered: Vec<serde_json::Value> =
-            data.iter().cloned().filter(|record| record[field] == value).collect();
-        filtered.iter().map(|record| build_from_json(record)).collect()
+            data.iter().cloned().filter(|record| value == record[field].to_string()).collect();
+        filtered.iter().map(|record| Self::build_from_json(record)).collect()
     }
 
-    fn build_from_json(record: &&serde_json::Value) -> Product {
+    fn build_from_json(record: &serde_json::Value) -> Product {
+        debug!("Building: {:#?}", record);
         Product {
             id: record["id"].as_i64().unwrap() as i32,
-            name: record["name"].to_string(),
-            desc: record["desc"].to_string(),
+            name: record["name"].as_str().unwrap().to_string(),
+            desc: record["desc"].as_str().unwrap().to_string(),
             unit_price: record["unit_price"].as_i64().unwrap() as i32,
             is_featured: record["is_featured"].as_bool().unwrap(),
         }
@@ -71,14 +80,14 @@ static DEFAULT_PRODUCTS: &str = r#"
             "name": "Black Thunder",
             "desc": "Chocolate Snack",
             "unit_price": 40,
-            "is_featured": false,
+            "is_featured": false
         },
         {
             "id": 2,
             "name": "Orange",
             "desc": "Organic",
             "unit_price": 100,
-            "is_featured": true,
+            "is_featured": true
         }
     ]
 }
