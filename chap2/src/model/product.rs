@@ -2,7 +2,7 @@ use super::{ Model, DbValue };
 use std::sync::{ Mutex, LazyLock };
 use getset::{ Getters, Setters };
 
-#[derive(Getters, Setters, Clone, Debug)]
+#[derive(Getters, Setters, Clone, Default, Debug)]
 #[getset(get = "pub", set = "pub")]
 pub struct Product {
     id: i32,
@@ -15,13 +15,7 @@ pub struct Product {
 impl Product {
     pub fn new() -> Self {
         let new_id = &PRODUCT_TABLE.lock().unwrap().current_id() + 1;
-        Self {
-            id: new_id,
-            name: String::from(""),
-            desc: String::from(""),
-            unit_price: 0,
-            is_featured: false,
-        }
+        Self { id: new_id, ..Default::default() }
     }
 
     pub fn fetch_one(field: &str, value: DbValue) -> Self {

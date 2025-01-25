@@ -30,4 +30,7 @@ fn main() {
         model::DbValue::Bool(true),
     );
     debug!("fetched2: {:#?}", product2);
+
+    let new_product = product::Product::new();
+    debug!("new: {:#?}", new_product);
 }
