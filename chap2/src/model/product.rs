@@ -4,7 +4,7 @@ use std::sync::{LazyLock, Mutex};
 use log::debug;
 use serde_json;
 
-use super::Model;
+use super::{Model, MockDbTable, MockDbTableData};
 
 #[allow(dead_code)]
 #[derive(Clone, Default, Debug)]
@@ -17,6 +17,7 @@ pub struct Product {
 }
 
 impl Product {
+    #[allow(dead_code)]
     pub fn new() -> Self {
         Default::default()
     }
@@ -38,27 +39,18 @@ impl Product {
 impl Model for Product {}
 
 struct ProductTable {
-    pub data_json: String,
+    pub data: MockDbTableData,
 }
 
 impl ProductTable {
     pub fn new(data_json: &str) -> Self {
-        Self {
-            data_json: data_json.to_string(),
-        }
+        Self { data: MockDbTableData::new(data_json) }
     }
+}
 
-    pub fn query_select(&self, field: &str, value: &str) -> Vec<Product> {
-        let data: Vec<serde_json::Value> = self.get_data().unwrap();
-        let filtered: Vec<serde_json::Value> = data
-            .iter()
-            .cloned()
-            .filter(|record| {
-                record[field].is_string() && value == record[field].as_str().unwrap()
-                    || value == record[field].to_string()
-            })
-            .collect();
-        filtered.iter().map(|record| Self::build_from_json(record)).collect()
+impl MockDbTable<Product> for ProductTable {
+    fn get_data(&self) -> Result<Vec<serde_json::Value>, Box<dyn Error>> {
+        self.data.get_data()
     }
 
     fn build_from_json(record: &serde_json::Value) -> Product {
@@ -70,12 +62,6 @@ impl ProductTable {
             unit_price: record["unit_price"].as_i64().unwrap() as i32,
             is_featured: record["is_featured"].as_bool().unwrap(),
         }
-    }
-
-    fn get_data(&self) -> Result<Vec<serde_json::Value>, Box<dyn Error>> {
-        let v: serde_json::Value = serde_json::from_str(&self.data_json)?;
-        let result = v["data"].as_array().unwrap();
-        Ok(result.to_vec())
     }
 }
 
