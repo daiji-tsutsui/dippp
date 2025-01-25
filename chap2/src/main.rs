@@ -16,14 +16,9 @@ fn main() {
     dotenv().ok();
     logger::init();
 
-    let mut product = product::Product::fetch_one("is_featured", "true").unwrap();
+    let product = product::Product::fetch_one("name", "Black Thunder").unwrap();
     info!("fetched: {:#?}", product);
-    product.name = String::from("changed");
-    info!("changed: {:#?}", product);
 
-    let product2 = product::Product::fetch_one("is_featured", "true").unwrap();
-    info!("fetched2: {:#?}", product2);
-
-    let new_product = product::Product::new();
-    info!("new: {:#?}", new_product);
+    let products = product::Product::fetch("is_featured", "true");
+    info!("fetched: {:#?}", products);
 }

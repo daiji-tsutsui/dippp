@@ -1,11 +1,12 @@
 use std::error::Error;
 use std::sync::{LazyLock, Mutex};
 
-use serde_json;
 use log::debug;
+use serde_json;
 
 use super::Model;
 
+#[allow(dead_code)]
 #[derive(Clone, Default, Debug)]
 pub struct Product {
     pub id: i32,
@@ -49,8 +50,14 @@ impl ProductTable {
 
     pub fn query_select(&self, field: &str, value: &str) -> Vec<Product> {
         let data: Vec<serde_json::Value> = self.get_data().unwrap();
-        let filtered: Vec<serde_json::Value> =
-            data.iter().cloned().filter(|record| value == record[field].to_string()).collect();
+        let filtered: Vec<serde_json::Value> = data
+            .iter()
+            .cloned()
+            .filter(|record| {
+                record[field].is_string() && value == record[field].as_str().unwrap()
+                    || value == record[field].to_string()
+            })
+            .collect();
         filtered.iter().map(|record| Self::build_from_json(record)).collect()
     }
 
@@ -94,3 +101,46 @@ static DEFAULT_PRODUCTS: &str = r#"
 "#;
 static PRODUCT_TABLE: LazyLock<Mutex<ProductTable>> =
     LazyLock::new(|| Mutex::new(ProductTable::new(DEFAULT_PRODUCTS)));
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new() {
+        let new_product = Product::new();
+        assert_eq!(new_product.id, 0);
+        assert_eq!(new_product.name, "");
+        assert_eq!(new_product.unit_price, 0);
+        assert_eq!(new_product.is_featured, false);
+    }
+
+    #[test]
+    fn test_fetch() {
+        let products = Product::fetch("name", "Black Thunder");
+        assert_eq!(products.len(), 1);
+        assert_eq!(products[0].id, 1);
+    }
+
+    #[test]
+    fn test_fetch_one_1() {
+        let product = Product::fetch_one("is_featured", "true").unwrap();
+        assert_eq!(product.id, 2);
+    }
+
+    #[test]
+    #[should_panic(expected = "called `Option::unwrap()` on a `None` value")]
+    fn test_fetch_one_2() {
+        let _product = Product::fetch_one("name", "Non-exists").unwrap();
+    }
+
+    #[test]
+    fn test_fetch_one_does_not_change_master_record() {
+        let mut product = Product::fetch_one("id", "1").unwrap();
+        product.name = String::from("changed");
+        assert_eq!(product.name, "changed");
+
+        let product_again = Product::fetch_one("id", "1").unwrap();
+        assert_eq!(product_again.name, "Black Thunder");
+    }
+}
