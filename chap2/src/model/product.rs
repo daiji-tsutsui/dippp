@@ -18,14 +18,19 @@ impl Product {
         Self { id: new_id, ..Default::default() }
     }
 
+    pub fn fetch(field: &str, value: DbValue) -> Vec<Self> {
+        let table = &PRODUCT_TABLE.lock().unwrap().table;
+        table.iter().cloned().filter( |record: &Self| {
+            record.getter(field) == value
+        }).collect()
+    }
+
     pub fn fetch_one(field: &str, value: DbValue) -> Self {
-        let table_content = &PRODUCT_TABLE.lock().unwrap().table;
-        for record in table_content.iter() {
-            if value == record.getter(field) {
-                return record.clone();
-            }
+        let fetched = Self::fetch(field, value);
+        match fetched.len() > 0 {
+            true => fetched[0].clone(),
+            false => Self::new(),
         }
-        Self::new()
     }
 
     fn getter(&self, field: &str) -> DbValue {
