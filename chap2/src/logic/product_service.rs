@@ -28,3 +28,6 @@ impl ProductService {
         cloned
     }
 }
+
+#[cfg(test)]
+include!("./product_service_test.rs");
