@@ -14,8 +14,9 @@ pub struct Product {
 
 impl Product {
     pub fn new() -> Self {
+        let new_id = &PRODUCT_TABLE.lock().unwrap().current_id() + 1;
         Self {
-            id: Self::current_id(),
+            id: new_id,
             name: String::from(""),
             desc: String::from(""),
             unit_price: 0,
@@ -24,8 +25,8 @@ impl Product {
     }
 
     pub fn fetch_one(field: &str, value: DbValue) -> Self {
-        let table = PRODUCT_TABLE.lock().unwrap();
-        for record in table.iter() {
+        let table_content = &PRODUCT_TABLE.lock().unwrap().table;
+        for record in table_content.iter() {
             if value == record.getter(field) {
                 return record.clone();
             }
@@ -43,32 +44,39 @@ impl Product {
             _ => panic!("Invalid field name!!"),
         }
     }
-
-    fn current_id() -> i32 {
-        let table = PRODUCT_TABLE.lock().unwrap();
-        table.len() as i32 + 1
-    }
 }
 
 impl Model for Product {}
 
-static PRODUCT_TABLE: LazyLock<Mutex<Vec<Product>>> = LazyLock::new(||
+struct ProductTable {
+    pub table: Vec<Product>,
+}
+
+impl ProductTable {
+    pub fn current_id(&self) -> i32 {
+        self.table.len() as i32
+    }
+}
+
+static PRODUCT_TABLE: LazyLock<Mutex<ProductTable>> = LazyLock::new(||
     Mutex::new(
-        vec![
-            Product {
-                id: 1,
-                name: String::from("Black Thunder"),
-                desc: String::from("Chocolate Snack"),
-                unit_price: 40,
-                is_featured: false,
-            },
-            Product {
-                id: 2,
-                name: String::from("Orange"),
-                desc: String::from("Organic"),
-                unit_price: 100,
-                is_featured: true,
-            },
-        ]
+        ProductTable {
+            table: vec![
+                Product {
+                    id: 1,
+                    name: String::from("Black Thunder"),
+                    desc: String::from("Chocolate Snack"),
+                    unit_price: 40,
+                    is_featured: false,
+                },
+                Product {
+                    id: 2,
+                    name: String::from("Orange"),
+                    desc: String::from("Organic"),
+                    unit_price: 100,
+                    is_featured: true,
+                },
+            ]
+        }
     )
 );
