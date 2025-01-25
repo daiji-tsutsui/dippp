@@ -1,6 +1,6 @@
-use super::{ Model, DbValue };
-use std::sync::{ Mutex, LazyLock };
+use super::{ DbValue, Model };
 use getset::{ Getters, Setters };
+use std::sync::{ LazyLock, Mutex };
 
 #[derive(Getters, Setters, Clone, Default, Debug)]
 #[getset(get = "pub", set = "pub")]
@@ -15,14 +15,19 @@ pub struct Product {
 impl Product {
     pub fn new() -> Self {
         let new_id = &PRODUCT_TABLE.lock().unwrap().current_id() + 1;
-        Self { id: new_id, ..Default::default() }
+        Self {
+            id: new_id,
+            ..Default::default()
+        }
     }
 
     pub fn fetch(field: &str, value: DbValue) -> Vec<Self> {
         let table = &PRODUCT_TABLE.lock().unwrap().table;
-        table.iter().cloned().filter( |record: &Self| {
-            record.getter(field) == value
-        }).collect()
+        table
+            .iter()
+            .cloned()
+            .filter(|record: &Self| record.getter(field) == value)
+            .collect()
     }
 
     pub fn fetch_one(field: &str, value: DbValue) -> Option<Self> {
@@ -57,25 +62,23 @@ impl ProductTable {
     }
 }
 
-static PRODUCT_TABLE: LazyLock<Mutex<ProductTable>> = LazyLock::new(||
-    Mutex::new(
-        ProductTable {
-            table: vec![
-                Product {
-                    id: 1,
-                    name: String::from("Black Thunder"),
-                    desc: String::from("Chocolate Snack"),
-                    unit_price: 40,
-                    is_featured: false,
-                },
-                Product {
-                    id: 2,
-                    name: String::from("Orange"),
-                    desc: String::from("Organic"),
-                    unit_price: 100,
-                    is_featured: true,
-                },
-            ]
-        }
-    )
-);
+static PRODUCT_TABLE: LazyLock<Mutex<ProductTable>> = LazyLock::new(|| {
+    Mutex::new(ProductTable {
+        table: vec![
+            Product {
+                id: 1,
+                name: String::from("Black Thunder"),
+                desc: String::from("Chocolate Snack"),
+                unit_price: 40,
+                is_featured: false,
+            },
+            Product {
+                id: 2,
+                name: String::from("Orange"),
+                desc: String::from("Organic"),
+                unit_price: 100,
+                is_featured: true,
+            },
+        ],
+    })
+});
