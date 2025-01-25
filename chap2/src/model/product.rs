@@ -27,6 +27,7 @@ impl Product {
         table.query_select(field, value)
     }
 
+    #[allow(dead_code)]
     pub fn fetch_one(field: &str, value: &str) -> Option<Self> {
         let fetched = Self::fetch(field, value);
         match fetched.len() > 0 {

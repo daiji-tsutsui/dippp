@@ -14,19 +14,14 @@ mod view;
 use dotenv::dotenv;
 #[allow(unused_imports)]
 use log::{debug, info};
-use logic::product_service;
+use controller::home::HomeController;
 
 fn main() {
     dotenv().ok();
     logger::init();
 
-    let service = product_service::ProductService::new();
+    let web = HomeController::new("PreferredCustomer");
 
-    let is_customer_preferred1 = true;
-    let products1 = service.get_featured_products(is_customer_preferred1);
-    info!("fetched 1: {:#?}", products1);
-
-    let is_customer_preferred2 = false;
-    let products2 = service.get_featured_products(is_customer_preferred2);
-    info!("fetched 2: {:#?}", products2);
+    let view_result = web.index();
+    info!("response: {:#?}", view_result);
 }

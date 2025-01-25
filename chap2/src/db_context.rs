@@ -11,6 +11,7 @@ impl CommerceContext {
         product::Product::fetch(field, value)
     }
 
+    #[allow(dead_code)]
     pub fn fetch_one(&self, field: &str, value: &str) -> Option<product::Product> {
         product::Product::fetch_one(field, value)
     }
