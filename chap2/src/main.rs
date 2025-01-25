@@ -3,7 +3,6 @@
 // by Steven van Deursen and Mark Seemann
 
 extern crate env_logger as logger;
-extern crate getset;
 extern crate log;
 
 mod model;
@@ -22,7 +21,7 @@ fn main() {
         model::DbValue::Bool(true),
     ).unwrap();
     debug!("fetched: {:#?}", product);
-    product.set_name(String::from("test"));
+    product.name = String::from("test");
     debug!("changed: {:#?}", product);
 
     let product2 = product::Product::fetch_one(

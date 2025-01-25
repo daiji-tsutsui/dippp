@@ -1,15 +1,13 @@
 use super::{ DbValue, Model };
-use getset::{ Getters, Setters };
 use std::sync::{ LazyLock, Mutex };
 
-#[derive(Getters, Setters, Clone, Default, Debug)]
-#[getset(get = "pub", set = "pub")]
+#[derive(Clone, Default, Debug)]
 pub struct Product {
-    id: i32,
-    name: String,
-    desc: String,
-    unit_price: i32,
-    is_featured: bool,
+    pub id: i32,
+    pub name: String,
+    pub desc: String,
+    pub unit_price: i32,
+    pub is_featured: bool,
 }
 
 impl Product {
@@ -19,11 +17,10 @@ impl Product {
 
     pub fn fetch(field: &str, value: DbValue) -> Vec<Self> {
         let table = &PRODUCT_TABLE.lock().unwrap().table;
-        table
-            .iter()
-            .cloned()
-            .filter(|record: &Self| record.getter(field) == value)
-            .collect()
+        table.iter()
+             .cloned()
+             .filter(|record: &Self| record.getter(field) == value)
+             .collect()
     }
 
     pub fn fetch_one(field: &str, value: DbValue) -> Option<Self> {
@@ -36,11 +33,11 @@ impl Product {
 
     fn getter(&self, field: &str) -> DbValue {
         match field {
-            "id" => DbValue::Int(self.id().clone()),
-            "name" => DbValue::Str(self.name().clone()),
-            "desc" => DbValue::Str(self.desc().clone()),
-            "unit_price" => DbValue::Int(self.unit_price().clone()),
-            "is_featured" => DbValue::Bool(self.is_featured().clone()),
+            "id" => DbValue::Int(self.id.clone()),
+            "name" => DbValue::Str(self.name.clone()),
+            "desc" => DbValue::Str(self.desc.clone()),
+            "unit_price" => DbValue::Int(self.unit_price.clone()),
+            "is_featured" => DbValue::Bool(self.is_featured.clone()),
             _ => panic!("Invalid field name!!"),
         }
     }
@@ -90,10 +87,10 @@ mod tests {
     #[test]
     fn test_new() {
         let new_product = Product::new();
-        assert_eq!(*new_product.id(), 0);
-        assert_eq!(*new_product.name(), "");
-        assert_eq!(*new_product.unit_price(), 0);
-        assert_eq!(*new_product.is_featured(), false);
+        assert_eq!(new_product.id, 0);
+        assert_eq!(new_product.name, "");
+        assert_eq!(new_product.unit_price, 0);
+        assert_eq!(new_product.is_featured, false);
     }
 
     #[test]
@@ -101,13 +98,13 @@ mod tests {
         let str_black_thunder = DbValue::Str(String::from("Black Thunder"));
         let products = Product::fetch("name", str_black_thunder);
         assert_eq!(products.len(), 1);
-        assert_eq!(*products[0].id(), 1);
+        assert_eq!(products[0].id, 1);
     }
 
     #[test]
     fn test_fetch_one_1() {
         let product = Product::fetch_one("is_featured", DbValue::Bool(true)).unwrap();
-        assert_eq!(*product.id(), 2);
+        assert_eq!(product.id, 2);
     }
 
     #[test]
