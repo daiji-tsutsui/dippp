@@ -85,10 +85,35 @@ static PRODUCT_TABLE: LazyLock<Mutex<ProductTable>> = LazyLock::new(|| {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::model::{ DbValue };
 
     #[test]
     fn test_new() {
         let new_product = Product::new();
         assert_eq!(*new_product.id(), 0);
+        assert_eq!(*new_product.name(), "");
+        assert_eq!(*new_product.unit_price(), 0);
+        assert_eq!(*new_product.is_featured(), false);
+    }
+
+    #[test]
+    fn test_fetch() {
+        let str_black_thunder = DbValue::Str(String::from("Black Thunder"));
+        let products = Product::fetch("name", str_black_thunder);
+        assert_eq!(products.len(), 1);
+        assert_eq!(*products[0].id(), 1);
+    }
+
+    #[test]
+    fn test_fetch_one_1() {
+        let product = Product::fetch_one("is_featured", DbValue::Bool(true)).unwrap();
+        assert_eq!(*product.id(), 2);
+    }
+
+    #[test]
+    #[should_panic(expected = "called `Option::unwrap()` on a `None` value")]
+    fn test_fetch_one_2() {
+        let str_non_exists = DbValue::Str(String::from("Non-exists"));
+        let _product = Product::fetch_one("name", str_non_exists).unwrap();
     }
 }
