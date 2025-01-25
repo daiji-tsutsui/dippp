@@ -1,5 +1,6 @@
-use super::{ Model };
-use std::sync::{ LazyLock, Mutex };
+use std::sync::{LazyLock, Mutex};
+
+use super::Model;
 
 #[derive(Debug)]
 pub struct Product {
@@ -52,8 +53,5 @@ static DEFAULT_PRODUCTS: &str = r#"[
         "is_featured": true,
     }
 ]"#;
-static PRODUCT_TABLE: LazyLock<Mutex<ProductTable>> = LazyLock::new(||
-    Mutex::new(
-        ProductTable::new(DEFAULT_PRODUCTS)
-    )
-);
+static PRODUCT_TABLE: LazyLock<Mutex<ProductTable>> =
+    LazyLock::new(|| Mutex::new(ProductTable::new(DEFAULT_PRODUCTS)));

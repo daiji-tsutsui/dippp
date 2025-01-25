@@ -2,14 +2,14 @@
 //   Dependency Injection Principles, Practices, and Patterns
 // by Steven van Deursen and Mark Seemann
 
-extern crate log;
 extern crate env_logger as logger;
+extern crate log;
 
 mod model;
 
-#[allow(unused_imports)]
-use log::{ info, debug };
 use dotenv::dotenv;
+#[allow(unused_imports)]
+use log::{debug, info};
 use model::product;
 
 fn main() {
