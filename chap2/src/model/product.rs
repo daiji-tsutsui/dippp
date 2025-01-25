@@ -25,11 +25,11 @@ impl Product {
         }).collect()
     }
 
-    pub fn fetch_one(field: &str, value: DbValue) -> Self {
+    pub fn fetch_one(field: &str, value: DbValue) -> Option<Self> {
         let fetched = Self::fetch(field, value);
         match fetched.len() > 0 {
-            true => fetched[0].clone(),
-            false => Self::new(),
+            true => Some(fetched[0].clone()),
+            false => None,
         }
     }
 

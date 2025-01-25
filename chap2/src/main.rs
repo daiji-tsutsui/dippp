@@ -20,7 +20,7 @@ fn main() {
     let mut product = product::Product::fetch_one(
         "is_featured",
         model::DbValue::Bool(true),
-    );
+    ).unwrap();
     debug!("fetched: {:#?}", product);
     product.set_name(String::from("test"));
     debug!("changed: {:#?}", product);
@@ -28,7 +28,7 @@ fn main() {
     let product2 = product::Product::fetch_one(
         "is_featured",
         model::DbValue::Bool(true),
-    );
+    ).unwrap();
     debug!("fetched2: {:#?}", product2);
 
     let new_product = product::Product::new();
