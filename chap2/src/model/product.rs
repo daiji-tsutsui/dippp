@@ -14,11 +14,7 @@ pub struct Product {
 
 impl Product {
     pub fn new() -> Self {
-        let new_id = &PRODUCT_TABLE.lock().unwrap().current_id() + 1;
-        Self {
-            id: new_id,
-            ..Default::default()
-        }
+        Default::default()
     }
 
     pub fn fetch(field: &str, value: DbValue) -> Vec<Self> {
@@ -50,6 +46,7 @@ impl Product {
     }
 }
 
+#[allow(dead_code)]
 impl Model for Product {}
 
 struct ProductTable {
@@ -57,6 +54,7 @@ struct ProductTable {
 }
 
 impl ProductTable {
+    #[allow(dead_code)]
     pub fn current_id(&self) -> i32 {
         self.table.len() as i32
     }
@@ -82,3 +80,15 @@ static PRODUCT_TABLE: LazyLock<Mutex<ProductTable>> = LazyLock::new(|| {
         ],
     })
 });
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new() {
+        let new_product = Product::new();
+        assert_eq!(*new_product.id(), 0);
+    }
+}
