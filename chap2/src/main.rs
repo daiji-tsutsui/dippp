@@ -5,9 +5,11 @@
 extern crate env_logger as logger;
 extern crate log;
 
+mod controller;
 mod db_context;
 mod logic;
 mod model;
+mod view;
 
 use dotenv::dotenv;
 #[allow(unused_imports)]
