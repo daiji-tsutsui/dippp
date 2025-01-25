@@ -5,22 +5,26 @@
 extern crate env_logger as logger;
 extern crate log;
 
-mod model;
 mod db_context;
+mod logic;
+mod model;
 
 use dotenv::dotenv;
 #[allow(unused_imports)]
 use log::{debug, info};
+use logic::product_service;
 
 fn main() {
     dotenv().ok();
     logger::init();
 
-    let context = db_context::CommerceContext::new();
+    let service = product_service::ProductService::new();
 
-    let product = context.fetch_one("name", "Black Thunder").unwrap();
-    info!("fetched: {:#?}", product);
+    let is_customer_preferred1 = true;
+    let products1 = service.get_featured_products(is_customer_preferred1);
+    info!("fetched 1: {:#?}", products1);
 
-    let products = context.fetch("is_featured", "true");
-    info!("fetched: {:#?}", products);
+    let is_customer_preferred2 = false;
+    let products2 = service.get_featured_products(is_customer_preferred2);
+    info!("fetched 2: {:#?}", products2);
 }
