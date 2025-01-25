@@ -11,10 +11,10 @@ mod logic;
 mod model;
 mod view;
 
+use controller::home::HomeController;
 use dotenv::dotenv;
 #[allow(unused_imports)]
 use log::{debug, info};
-use controller::home::HomeController;
 
 fn main() {
     dotenv().ok();

@@ -1,5 +1,5 @@
-use crate::model::product;
 use crate::logic::product_service;
+use crate::model::product;
 use crate::view;
 
 pub struct HomeController {
@@ -11,7 +11,7 @@ impl HomeController {
         Self {
             user: UserHttpContext {
                 role: String::from(user_role),
-            }
+            },
         }
     }
 
@@ -36,4 +36,3 @@ impl UserHttpContext {
         self.role == String::from(target_role)
     }
 }
-
