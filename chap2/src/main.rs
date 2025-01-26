@@ -20,7 +20,8 @@ fn main() {
     dotenv().ok();
     logger::init();
 
-    let web = HomeController::new("PreferredCustomer");
+    let mut web = HomeController::new();
+    web.login("PreferredCustomer");
 
     let view_result = web.index();
     info!("response: {:#?}", view_result);
