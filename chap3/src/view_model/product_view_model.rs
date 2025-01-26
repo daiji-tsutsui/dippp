@@ -2,11 +2,11 @@ use crate::model::product;
 
 #[derive(Clone, Debug)]
 pub struct ProductViewModel {
-    pub data: product::Product,
+    pub data: product::DiscountedProduct,
 }
 
 impl ProductViewModel {
-    pub fn new(data: product::Product) -> Self {
+    pub fn new(data: product::DiscountedProduct) -> Self {
         Self { data }
     }
 
@@ -22,10 +22,9 @@ mod tests {
     #[test]
     fn test_summary_text() {
         let view_model = ProductViewModel {
-            data: product::Product {
+            data: product::DiscountedProduct {
                 name: String::from("test"),
                 unit_price: 200.0,
-                ..Default::default()
             },
         };
         assert_eq!(view_model.summary_text(), "test ($200.00)");

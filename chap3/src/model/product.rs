@@ -11,10 +11,15 @@ pub struct Product {
 }
 
 impl Product {
-    #[allow(dead_code)]
     pub fn new() -> Self {
         Default::default()
     }
 }
 
 impl Model for Product {}
+
+#[derive(Clone, Debug)]
+pub struct DiscountedProduct {
+    pub name: String,
+    pub unit_price: f32,
+}

@@ -10,10 +10,10 @@ impl ProductService {
 }
 
 impl IProductService for ProductService {
-    fn get_featured_products(&self) -> Vec<product::Product> {
+    fn get_featured_products(&self) -> Vec<product::DiscountedProduct> {
         vec![
-            product::Product::new(),
-            product::Product::new(),
+            product::DiscountedProduct { name: String::from("test1"), unit_price: 10.0 },
+            product::DiscountedProduct { name: String::from("test2"), unit_price: 38.95 },
         ]
     }
 }

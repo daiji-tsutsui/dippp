@@ -7,7 +7,7 @@ pub struct FeaturedProductsViewModel {
 }
 
 impl FeaturedProductsViewModel {
-    pub fn new(products: Vec<product::Product>) -> Self {
+    pub fn new(products: Vec<product::DiscountedProduct>) -> Self {
         Self {
             products: products.iter().cloned().map(|p| product_view_model::ProductViewModel::new(p)).collect(),
         }
