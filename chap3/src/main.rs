@@ -8,6 +8,7 @@ extern crate log;
 mod controller;
 mod logic;
 mod model;
+mod repository;
 mod view;
 mod view_model;
 
