@@ -15,7 +15,7 @@ impl Product {
         Default::default()
     }
 
-    pub fn apply_discount_for<T: IUserContext>(&self, user: T) -> DiscountedProduct {
+    pub fn apply_discount_for<T: IUserContext>(&self, user: &T) -> DiscountedProduct {
         let preferred: bool = user.is_in_role("PreferredCustomer");
         let discount: f32 = if preferred { 0.95 } else { 1.0 };
         DiscountedProduct {
@@ -32,3 +32,6 @@ pub struct DiscountedProduct {
     pub name: String,
     pub unit_price: f32,
 }
+
+#[cfg(test)]
+include!("./product_test.rs");
