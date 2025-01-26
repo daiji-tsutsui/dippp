@@ -14,6 +14,7 @@ mod view_model;
 use dotenv::dotenv;
 #[allow(unused_imports)]
 use log::{debug, info};
+
 use crate::view::ViewResult;
 
 fn main() {
