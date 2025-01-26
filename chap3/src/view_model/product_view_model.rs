@@ -6,6 +6,10 @@ pub struct ProductViewModel {
 }
 
 impl ProductViewModel {
+    pub fn new(data: product::Product) -> Self {
+        Self { data }
+    }
+
     pub fn summary_text(&self) -> String {
         format!("{} (${:.2})", self.data.name, self.data.unit_price)
     }

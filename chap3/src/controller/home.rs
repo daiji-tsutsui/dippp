@@ -13,19 +13,10 @@ impl<T: IProductService> HomeController<T> {
     }
 
     pub fn index(&self) -> product_view::ProductView {
-        let _products = self.service.get_featured_products();
+        let products = self.service.get_featured_products();
 
         product_view::ProductView {
-            model: featured_products_view_model::FeaturedProductsViewModel {
-                products: vec![
-                    product_view_model::ProductViewModel {
-                        data: product::Product::new(),
-                    },
-                    product_view_model::ProductViewModel {
-                        data: product::Product::new(),
-                    },
-                ],
-            },
+            model: featured_products_view_model::FeaturedProductsViewModel::new(products),
         }
     }
 }
