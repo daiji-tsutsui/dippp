@@ -1,7 +1,7 @@
 use crate::controller;
 use crate::logic::product_service;
-use crate::model::product;
 use crate::view;
+use crate::view::product_view;
 
 pub struct HomeController {
     session: controller::HttpSession,
@@ -22,14 +22,16 @@ impl HomeController {
         self.session.user.role = String::from(user_role);
     }
 
-    pub fn index(&self) -> view::ViewResult<product::Product> {
+    pub fn index(&self) -> product_view::ProductView {
         let is_preferred_customer = self.session.user.is_in_role("PreferredCustomer");
 
         let service = product_service::ProductService::new();
         let products = service.get_featured_products(is_preferred_customer);
 
-        view::ViewResult {
-            view_data: products,
+        product_view::ProductView {
+            view_data: view::ViewData {
+                data: products,
+            }
         }
     }
 }
