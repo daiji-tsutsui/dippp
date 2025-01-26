@@ -15,6 +15,7 @@ use controller::home::HomeController;
 use dotenv::dotenv;
 #[allow(unused_imports)]
 use log::{debug, info};
+use view::ViewResult;
 
 fn main() {
     dotenv().ok();
@@ -24,5 +25,5 @@ fn main() {
     web.login("PreferredCustomer");
 
     let view_result = web.index();
-    info!("response: {:#?}", view_result);
+    info!("Response HTML: {}", view_result.get_html());
 }

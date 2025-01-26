@@ -29,9 +29,7 @@ impl HomeController {
         let products = service.get_featured_products(is_preferred_customer);
 
         product_view::ProductView {
-            view_data: view::ViewData {
-                data: products,
-            }
+            view_data: view::ViewData { data: products },
         }
     }
 }
