@@ -7,7 +7,7 @@ mod tests {
         let new_product = Product::new();
         assert_eq!(new_product.id, 0);
         assert_eq!(new_product.name, "");
-        assert_eq!(new_product.unit_price, 0);
+        assert_eq!(new_product.unit_price, 0.0);
         assert_eq!(new_product.is_featured, false);
     }
 

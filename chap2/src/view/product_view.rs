@@ -19,7 +19,7 @@ impl view::ViewResult for ProductView {
 
         let products = self.view_data.data.clone();
         let list = products.iter().fold("\n".to_string(), |acc, p| {
-            format!("{}\t<div>{} ({})</div>\n", acc, p.name, p.unit_price)
+            format!("{}\t<div>{} (${:.2})</div>\n", acc, p.name, p.unit_price)
         });
         let result = format!(template!(), list = list);
         result.to_string()

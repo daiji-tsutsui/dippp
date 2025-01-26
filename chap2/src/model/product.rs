@@ -12,7 +12,7 @@ pub struct Product {
     pub id: i32,
     pub name: String,
     pub desc: String,
-    pub unit_price: i32,
+    pub unit_price: f32,
     pub is_featured: bool,
 }
 
@@ -62,7 +62,7 @@ impl MockDbTable<Product> for ProductTable {
             id: record["id"].as_i64().unwrap() as i32,
             name: record["name"].as_str().unwrap().to_string(),
             desc: record["desc"].as_str().unwrap().to_string(),
-            unit_price: record["unit_price"].as_i64().unwrap() as i32,
+            unit_price: record["unit_price"].as_f64().unwrap() as f32,
             is_featured: record["is_featured"].as_bool().unwrap(),
         }
     }
@@ -75,14 +75,14 @@ static DEFAULT_PRODUCTS: &str = r#"
             "id": 1,
             "name": "Black Thunder",
             "desc": "Chocolate Snack",
-            "unit_price": 40,
+            "unit_price": 40.0,
             "is_featured": false
         },
         {
             "id": 2,
             "name": "Orange",
             "desc": "Organic",
-            "unit_price": 100,
+            "unit_price": 100.0,
             "is_featured": true
         }
     ]

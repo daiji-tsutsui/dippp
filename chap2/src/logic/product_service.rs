@@ -23,8 +23,7 @@ impl ProductService {
 
     fn build_discounted_one(product: &product::Product, discount: f32) -> product::Product {
         let mut cloned = product.clone();
-        let discounted_price: f32 = (product.unit_price as f32) * discount;
-        cloned.unit_price = discounted_price.round() as i32;
+        cloned.unit_price = product.unit_price * discount;
         cloned
     }
 }

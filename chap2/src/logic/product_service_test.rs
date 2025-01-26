@@ -9,7 +9,7 @@ mod tests {
 
         let products = service.get_featured_products(is_customer_preferred);
         assert_eq!(products.len(), 1);
-        assert_eq!(products[0].unit_price, 95);
+        assert_eq!(products[0].unit_price, 95.0);
     }
 
     #[test]
@@ -19,6 +19,6 @@ mod tests {
 
         let products = service.get_featured_products(is_customer_preferred);
         assert_eq!(products.len(), 1);
-        assert_eq!(products[0].unit_price, 100);
+        assert_eq!(products[0].unit_price, 100.0);
     }
 }
