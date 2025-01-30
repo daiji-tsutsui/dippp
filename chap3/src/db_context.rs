@@ -9,7 +9,11 @@ use crate::model::product::Product;
 pub struct DbContext {}
 
 impl DbContext {
-    pub fn fetch_product(field: &str, value: &str) -> Vec<Product> {
+    pub fn new() -> Self {
+        Self {}
+    }
+
+    pub fn fetch_products(&self, field: &str, value: &str) -> Vec<Product> {
         let table = &PRODUCT_TABLE.lock().unwrap();
         table.query_select(field, value)
     }
@@ -62,7 +66,7 @@ impl ProductTable {
         }
     }
 
-    fn query_select(&self, field: &str, value: &str) -> Vec<Product> {
+    pub fn query_select(&self, field: &str, value: &str) -> Vec<Product> {
         let data: Vec<serde_json::Value> = self.get_data().unwrap();
         let filtered: Vec<serde_json::Value> = data
             .iter()
@@ -77,19 +81,42 @@ impl ProductTable {
 }
 
 struct MockDbTableData {
-    pub data_json: String,
+    data_json: String,
 }
 
 impl MockDbTableData {
-    pub fn new(data_json: &str) -> Self {
+    fn new(data_json: &str) -> Self {
         Self {
             data_json: data_json.to_string(),
         }
     }
 
-    pub fn get_data(&self) -> Result<Vec<serde_json::Value>, Box<dyn Error>> {
+    fn get_data(&self) -> Result<Vec<serde_json::Value>, Box<dyn Error>> {
         let v: serde_json::Value = serde_json::from_str(&self.data_json)?;
         let result = v["data"].as_array().unwrap();
         Ok(result.to_vec())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_fetch_products_1() {
+        let context = DbContext::new();
+        let products = context.fetch_products("name", "Black Thunder");
+        assert_eq!(products.len(), 1);
+        assert_eq!(products[0].name, "Black Thunder");
+        assert_eq!(products[0].unit_price, 40.0);
+    }
+
+    #[test]
+    fn test_fetch_products_2() {
+        let context = DbContext::new();
+        let products = context.fetch_products("is_featured", "true");
+        assert_eq!(products.len(), 1);
+        assert_eq!(products[0].name, "Orange");
+        assert_eq!(products[0].unit_price, 100.0);
     }
 }
