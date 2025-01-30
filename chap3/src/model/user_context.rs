@@ -1,5 +1,6 @@
 pub enum Role {
     PreferredCustomer,
+    #[allow(dead_code)]
     NormalCustomer,
 }
 

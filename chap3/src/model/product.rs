@@ -11,6 +11,7 @@ pub struct Product {
 }
 
 impl Product {
+    #[allow(dead_code)]
     pub fn new() -> Self {
         Default::default()
     }

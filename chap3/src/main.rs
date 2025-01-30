@@ -31,6 +31,6 @@ fn main() {
     );
     let web = controller::home::HomeController::new(service);
 
-    // let view = web.index();
-    // info!("Response HTML: {}", view.get_html());
+    let view = web.index();
+    info!("Response HTML: {}", view.get_html());
 }
