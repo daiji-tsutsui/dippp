@@ -6,6 +6,7 @@ extern crate env_logger as logger;
 extern crate log;
 
 mod controller;
+mod db_context;
 mod logic;
 mod model;
 mod repository;
