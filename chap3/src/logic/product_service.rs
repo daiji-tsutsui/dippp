@@ -31,6 +31,7 @@ impl<T: IProductRepository, S: IUserContext> IProductService for ProductService<
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::model::user_context;
 
     #[test]
     fn test_get_featured_products_1() {
@@ -82,7 +83,7 @@ mod tests {
     }
 
     impl IUserContext for MockUserContext {
-        fn is_in_role(&self, _role: &str) -> bool {
+        fn is_in_role(&self, _role: user_context::Role) -> bool {
             self.test_discount_flag
         }
     }

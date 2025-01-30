@@ -1,4 +1,4 @@
-use super::user_context::IUserContext;
+use super::user_context::{IUserContext, Role};
 use super::Model;
 
 #[allow(dead_code)]
@@ -16,7 +16,7 @@ impl Product {
     }
 
     pub fn apply_discount_for<T: IUserContext>(&self, user: &T) -> DiscountedProduct {
-        let preferred: bool = user.is_in_role("PreferredCustomer");
+        let preferred: bool = user.is_in_role(Role::PreferredCustomer);
         let discount: f32 = if preferred { 0.95 } else { 1.0 };
         DiscountedProduct {
             name: self.name.clone(),
