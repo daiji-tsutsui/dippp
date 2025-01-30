@@ -1,14 +1,14 @@
-use crate::db_context;
+use crate::db_context::commerce_context;
 use crate::model::product;
 
 pub struct ProductService {
-    db_context: db_context::CommerceContext,
+    db_context: commerce_context::CommerceContext,
 }
 
 impl ProductService {
     pub fn new() -> Self {
         Self {
-            db_context: db_context::CommerceContext::new(),
+            db_context: commerce_context::CommerceContext::new(),
         }
     }
 
@@ -17,7 +17,7 @@ impl ProductService {
             true => 0.95,
             false => 1.0,
         };
-        let products = self.db_context.fetch("is_featured", "true");
+        let products = self.db_context.fetch_products("is_featured", "true");
         products.iter().map(|p| Self::build_discounted_one(p, discount)).collect()
     }
 
