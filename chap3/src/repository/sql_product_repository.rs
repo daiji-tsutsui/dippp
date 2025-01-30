@@ -1,13 +1,13 @@
-use crate::db_context::DbContext;
+use crate::db_context::commerce_context;
 use crate::model::product;
 use super::i_product_repository::IProductRepository;
 
 pub struct SqlProductRepository {
-    context: DbContext,
+    context: commerce_context::CommerceContext,
 }
 
 impl SqlProductRepository {
-    pub fn new(context: DbContext) -> Self {
+    pub fn new(context: commerce_context::CommerceContext) -> Self {
         Self { context }
     }
 }
