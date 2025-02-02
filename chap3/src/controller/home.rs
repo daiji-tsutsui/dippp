@@ -1,4 +1,4 @@
-use crate::logic::i_product_service::IProductService;
+use crate::domain::logic::i_product_service::IProductService;
 use crate::view::product_view;
 use crate::view_model::featured_products_view_model;
 

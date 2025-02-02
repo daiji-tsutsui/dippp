@@ -7,8 +7,7 @@ extern crate log;
 
 mod controller;
 mod db;
-mod logic;
-mod model;
+mod domain;
 mod view;
 mod view_model;
 mod web_context;
@@ -25,7 +24,7 @@ fn main() {
 
     // オブジェクトグラフを見るため、あえてすべて入れ子にする
     let web = controller::home::HomeController::new(
-        logic::product_service::ProductService::new(
+        domain::logic::product_service::ProductService::new(
             db::repository::sql_product_repository::SqlProductRepository::new(
                 db::db_context::commerce_context::CommerceContext::new(),
             ),

@@ -1,5 +1,5 @@
 use super::product_view_model;
-use crate::model::product;
+use crate::domain::model::product;
 
 #[derive(Debug)]
 pub struct FeaturedProductsViewModel {

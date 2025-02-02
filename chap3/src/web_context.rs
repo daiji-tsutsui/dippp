@@ -1,4 +1,4 @@
-use crate::model::i_user_context::{IUserContext, Role};
+use crate::domain::model::i_user_context::{IUserContext, Role};
 
 pub struct UserContextAdapter {}
 

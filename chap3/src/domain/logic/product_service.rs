@@ -1,7 +1,7 @@
-use crate::logic::i_product_service::IProductService;
-use crate::model::i_product_repository::IProductRepository;
-use crate::model::i_user_context::IUserContext;
-use crate::model::product;
+use crate::domain::logic::i_product_service::IProductService;
+use crate::domain::model::i_product_repository::IProductRepository;
+use crate::domain::model::i_user_context::IUserContext;
+use crate::domain::model::product;
 
 pub struct ProductService<T: IProductRepository, S: IUserContext> {
     repository: T,
@@ -31,7 +31,7 @@ impl<T: IProductRepository, S: IUserContext> IProductService for ProductService<
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::i_user_context;
+    use crate::domain::model::i_user_context;
 
     #[test]
     fn test_get_featured_products_1() {

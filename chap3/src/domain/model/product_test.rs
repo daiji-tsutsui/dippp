@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::i_user_context;
+    use crate::domain::model::i_user_context;
 
     #[test]
     fn test_new() {

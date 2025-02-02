@@ -1,4 +1,4 @@
-use crate::model::product;
+use crate::domain::model::product;
 
 #[derive(Clone, Debug)]
 pub struct ProductViewModel {
