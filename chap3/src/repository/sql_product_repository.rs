@@ -1,6 +1,6 @@
 use crate::db_context::commerce_context;
-use crate::model::product;
 use crate::model::i_product_repository::IProductRepository;
+use crate::model::product;
 
 pub struct SqlProductRepository {
     context: commerce_context::CommerceContext,
