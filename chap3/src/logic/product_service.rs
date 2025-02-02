@@ -1,7 +1,7 @@
 use crate::logic::i_product_service::IProductService;
 use crate::model::product;
 use crate::model::i_user_context::IUserContext;
-use crate::repository::i_product_repository::IProductRepository;
+use crate::model::i_product_repository::IProductRepository;
 
 pub struct ProductService<T: IProductRepository, S: IUserContext> {
     repository: T,
