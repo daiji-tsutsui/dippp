@@ -23,13 +23,15 @@ fn main() {
     dotenv().ok();
     logger::init();
 
-    let service = logic::product_service::ProductService::new(
-        repository::sql_product_repository::SqlProductRepository::new(
-            db_context::commerce_context::CommerceContext::new(),
-        ),
-        model::user_context::UserContextAdapter::new(),
+    // オブジェクトグラフを見るため、あえてすべて入れ子にする
+    let web = controller::home::HomeController::new(
+        logic::product_service::ProductService::new(
+            repository::sql_product_repository::SqlProductRepository::new(
+                db_context::commerce_context::CommerceContext::new(),
+            ),
+            model::user_context::UserContextAdapter::new(),
+        )
     );
-    let web = controller::home::HomeController::new(service);
 
     let view = web.index();
     info!("Response HTML: {}", view.get_html());
