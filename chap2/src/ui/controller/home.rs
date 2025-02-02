@@ -1,7 +1,7 @@
-use crate::controller;
-use crate::logic::product_service;
-use crate::view;
-use crate::view::product_view;
+use crate::ui::controller;
+use crate::domain::logic::product_service;
+use crate::ui::view;
+use crate::ui::view::product_view;
 
 pub struct HomeController {
     session: controller::HttpSession,

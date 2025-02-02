@@ -5,23 +5,21 @@
 extern crate env_logger as logger;
 extern crate log;
 
-mod controller;
-mod db_context;
-mod logic;
-mod model;
-mod view;
+mod db;
+mod domain;
+mod ui;
 
-use controller::home::HomeController;
 use dotenv::dotenv;
 #[allow(unused_imports)]
 use log::{debug, info};
-use view::ViewResult;
+
+use ui::view::ViewResult;
 
 fn main() {
     dotenv().ok();
     logger::init();
 
-    let mut web = HomeController::new();
+    let mut web = ui::controller::home::HomeController::new();
     web.login("PreferredCustomer");
 
     let view_result = web.index();

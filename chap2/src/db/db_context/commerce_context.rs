@@ -5,7 +5,7 @@ use log::debug;
 use serde_json;
 
 use super::{DbContext, MockDbTable, MockDbTableData};
-use crate::model::product::Product;
+use crate::domain::model::product::Product;
 
 pub struct CommerceContext {}
 

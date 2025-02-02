@@ -1,5 +1,5 @@
-use crate::db_context::commerce_context;
-use crate::model::product;
+use crate::db::db_context::commerce_context;
+use crate::domain::model::product;
 
 pub struct ProductService {
     db_context: commerce_context::CommerceContext,
