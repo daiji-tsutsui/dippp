@@ -6,10 +6,9 @@ extern crate env_logger as logger;
 extern crate log;
 
 mod controller;
-mod db_context;
+mod db;
 mod logic;
 mod model;
-mod repository;
 mod view;
 mod view_model;
 mod web_context;
@@ -27,8 +26,8 @@ fn main() {
     // オブジェクトグラフを見るため、あえてすべて入れ子にする
     let web = controller::home::HomeController::new(
         logic::product_service::ProductService::new(
-            repository::sql_product_repository::SqlProductRepository::new(
-                db_context::commerce_context::CommerceContext::new(),
+            db::repository::sql_product_repository::SqlProductRepository::new(
+                db::db_context::commerce_context::CommerceContext::new(),
             ),
             web_context::UserContextAdapter::new(),
         )
