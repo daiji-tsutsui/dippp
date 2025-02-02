@@ -1,5 +1,5 @@
-use crate::view::*;
-use crate::view_model::featured_products_view_model;
+use crate::ui::view::*;
+use crate::ui::view_model::featured_products_view_model;
 
 #[derive(Debug)]
 pub struct ProductView {

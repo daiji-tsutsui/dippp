@@ -1,6 +1,6 @@
 use crate::domain::logic::i_product_service::IProductService;
-use crate::view::product_view;
-use crate::view_model::featured_products_view_model;
+use crate::ui::view::product_view;
+use crate::ui::view_model::featured_products_view_model;
 
 pub struct HomeController<T: IProductService> {
     service: T,

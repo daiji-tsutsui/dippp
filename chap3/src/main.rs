@@ -5,30 +5,27 @@
 extern crate env_logger as logger;
 extern crate log;
 
-mod controller;
 mod db;
 mod domain;
-mod view;
-mod view_model;
-mod web_context;
+mod ui;
 
 use dotenv::dotenv;
 #[allow(unused_imports)]
 use log::{debug, info};
 
-use crate::view::ViewResult;
+use crate::ui::view::ViewResult;
 
 fn main() {
     dotenv().ok();
     logger::init();
 
     // オブジェクトグラフを見るため、あえてすべて入れ子にする
-    let web = controller::home::HomeController::new(
+    let web = ui::controller::home::HomeController::new(
         domain::logic::product_service::ProductService::new(
             db::repository::sql_product_repository::SqlProductRepository::new(
                 db::db_context::commerce_context::CommerceContext::new(),
             ),
-            web_context::UserContextAdapter::new(),
+            ui::web_context::UserContextAdapter::new(),
         )
     );
 
