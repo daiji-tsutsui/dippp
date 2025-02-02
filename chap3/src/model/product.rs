@@ -1,4 +1,4 @@
-use super::user_context::{IUserContext, Role};
+use super::i_user_context::{IUserContext, Role};
 use super::Model;
 
 #[allow(dead_code)]

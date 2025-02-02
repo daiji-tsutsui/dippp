@@ -1,12 +1,4 @@
-pub enum Role {
-    PreferredCustomer,
-    #[allow(dead_code)]
-    NormalCustomer,
-}
-
-pub trait IUserContext {
-    fn is_in_role(&self, role: Role) -> bool;
-}
+use crate::model::i_user_context::{IUserContext, Role};
 
 pub struct UserContextAdapter {}
 
@@ -18,6 +10,7 @@ impl UserContextAdapter {
 
 impl IUserContext for UserContextAdapter {
     fn is_in_role(&self, role: Role) -> bool {
+        // Checking login session
         match role {
             Role::PreferredCustomer => true,
             _ => false,

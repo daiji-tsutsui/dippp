@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::model::user_context;
+    use crate::model::i_user_context;
 
     #[test]
     fn test_new() {
@@ -44,7 +44,7 @@ mod tests {
     }
 
     impl IUserContext for MockUserContext {
-        fn is_in_role(&self, _role: user_context::Role) -> bool {
+        fn is_in_role(&self, _role: i_user_context::Role) -> bool {
             self.test_discount_flag
         }
     }

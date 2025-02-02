@@ -12,6 +12,7 @@ mod model;
 mod repository;
 mod view;
 mod view_model;
+mod web_context;
 
 use dotenv::dotenv;
 #[allow(unused_imports)]
@@ -29,7 +30,7 @@ fn main() {
             repository::sql_product_repository::SqlProductRepository::new(
                 db_context::commerce_context::CommerceContext::new(),
             ),
-            model::user_context::UserContextAdapter::new(),
+            web_context::UserContextAdapter::new(),
         )
     );
 
